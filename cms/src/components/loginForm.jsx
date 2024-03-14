@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export default function SignInSide() {
   const navigate = useNavigate();
@@ -27,10 +28,15 @@ export default function SignInSide() {
           password: loginInput.password,
         }
       );
-      localStorage.setItem("access_token", data.data.access_token);
+      localStorage.setItem("access_token", data.access_token);
       navigate("/doctors");
     } catch (error) {
       console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error.response.data.message,
+      })
     }
   };
 
