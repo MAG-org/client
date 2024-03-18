@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 export default function SignInSide() {
@@ -22,86 +22,80 @@ export default function SignInSide() {
     event.preventDefault();
     try {
       const data = await axios.post(
-        //API URL HERE
+        // API URL HERE
+        "API_URL_HERE", // Ganti dengan URL API yang benar
         {
           email: loginInput.email,
           password: loginInput.password,
         }
       );
       localStorage.setItem("access_token", data.access_token);
-      navigate("/doctors");
+      navigate("/");
     } catch (error) {
       console.log(error);
       Swal.fire({
         icon: "error",
         title: "Oops...",
         text: error.response.data.message,
-      })
+      });
     }
   };
 
   return (
-    <div className="min-h-screen flex">
-      <div
-        className="hidden lg:block lg:w-1/2 bg-cover bg-center"
-        style={{
-          backgroundImage: "url(https://source.unsplash.com/random?wallpapers)",
-        }}
-      />
-      <div className="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto w-full max-w-sm">
-          <div>
-            <h2 className="mt-6 text-3xl font-extrabold text-center text-gray-900">
-              Sign in
-            </h2>
+    <div className="bg-gray-100 flex justify-center items-center h-screen">
+      {/* Left: Image */}
+      <div className="w-1/2 h-screen hidden lg:block">
+        <img
+          src="https://source.unsplash.com/random?doctors"
+          alt="Placeholder Image"
+          className="object-cover w-full h-full"
+        />
+      </div>
+      {/* Right: Login Form */}
+      <div className="lg:p-36 md:p-52 sm:p-20 p-8 w-full lg:w-1/2">
+        <h1 className="text-2xl font-semibold mb-4">Login</h1>
+        <form onSubmit={handleSubmit}>
+          {/* Username Input */}
+          <div className="mb-4">
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Email"
+              value={loginInput.email}
+              onChange={handleChangeInput}
+              className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+              style={{
+                borderRadius: "100px",
+              }}
+            />
           </div>
-
-          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-            <input type="hidden" name="remember" value="true" />
-            <div className="rounded-md shadow-sm -space-y-px">
-              <div>
-                <label htmlFor="email-address" className="sr-only">
-                  Email address
-                </label>
-                <input
-                  id="email-address"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  value={loginInput.email}
-                  onChange={handleChangeInput}
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="Email address"
-                />
-              </div>
-              <div>
-                <label htmlFor="password" className="sr-only">
-                  Password
-                </label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  value={loginInput.password}
-                  onChange={handleChangeInput}
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="Password"
-                />
-              </div>
-            </div>
-
-            <div>
-              <button
-                type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                Sign in
-              </button>
-            </div>
-          </form>
-        </div>
+          {/* Password Input */}
+          <div className="mb-4">
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Password"
+              value={loginInput.password}
+              onChange={handleChangeInput}
+              className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+              style={{
+                borderRadius: "100px",
+              }}
+            />
+          </div>
+          {/* Login Button */}
+          <button
+            type="submit"
+            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md py-2 px-4 w-full"
+            style={{
+                borderRadius: "100px",
+              }}
+            >
+            Login
+          </button>
+        </form>
       </div>
     </div>
   );
