@@ -4,12 +4,10 @@ import Layout from "./layout/layout";
 import Login from "./pages/login";
 import Register from "./pages/register";
 import Home from "./pages/home";
+import DoctorPage from "./pages/doctor";
+import AppointPage from "./pages/appoint";
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />,
-  },
   {
     path: "/register",
     element: <Register />,
@@ -20,16 +18,25 @@ const router = createBrowserRouter([
     loader: () => localStorage.getItem("access_token") && redirect("/"),
   },
   {
+    element: <Layout />,
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+      },
+    ],
+  },
+  {
+    element: <Layout />,
     loader: () => !localStorage.getItem("access_token") && redirect("/login"),
     children: [
       {
-        element: <Layout />,
-        children: [
-          {
-            path: "/doctors",
-            element: <Home />,
-          },
-        ],
+        path: "/doctors",
+        element: <DoctorPage />,
+      },
+      {
+        path: "/appointments",
+        element: <AppointPage />,
       },
     ],
   },
