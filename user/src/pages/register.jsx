@@ -1,6 +1,6 @@
 import * as React from "react";
 import RegisterForm from "../components/registerForm";
 
-export default function Login() {
+export default function Register() {
   return <RegisterForm />;
 }

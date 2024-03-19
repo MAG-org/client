@@ -1,5 +1,5 @@
 import ListDoctor from "../components/listDoctor.jsx";
 
-export default function Home() {
+export default function Doctor() {
   return <ListDoctor />;
 }
