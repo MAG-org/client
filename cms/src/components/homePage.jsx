@@ -1,20 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 export default function HomePage() {
-  const patients = [
-    { id: 1, name: "John Doe", specialist: "Cardiologist" },
-    { id: 2, name: "Jane Doe", specialist: "Dermatologist" },
-    { id: 3, name: "Alice Smith", specialist: "Neurologist" },
-    { id: 4, name: "Bob Johnson", specialist: "Gastroenterologist" },
-  ];
-
+  const [doctors, setDoctors] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredPatients = patients.filter(
-    (patient) =>
-      patient.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      patient.specialist.toLowerCase().includes(searchTerm.toLowerCase())
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("API_ENDPOINT_URL");
+        setDoctors(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const filteredDoctors = doctors.filter(
+    (doctor) =>
+      doctor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      doctor.specialist.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -27,7 +35,7 @@ export default function HomePage() {
             <div className="relative w-full">
               <input
                 type="search"
-                className="bg-white-500 hover:bg-gray-600 text-white font-semibold rounded-md py-2 px-4 w-full"
+                className="bg-black hover:bg-gray-600 text-white font-semibold rounded-md py-2 px-4 w-full"
                 placeholder="Search..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -37,7 +45,7 @@ export default function HomePage() {
         </form>
       </div>
       <div>
-        <table className="table">
+        <table className="table margin-auto">
           {/* head */}
           <thead>
             <tr>
@@ -49,7 +57,7 @@ export default function HomePage() {
           </thead>
           <tbody>
             {/* Data Pasien */}
-            {filteredPatients.map((doctor) => (
+            {filteredDoctors.map((doctor) => (
               <tr key={doctor.id}>
                 <td>{doctor.id}</td>
                 <td>{doctor.name}</td>
