@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 
 export default function DoctorDetail() {
-  // Sample data for demonstration
   const [appointments, setAppointments] = useState([
-    { id: 1, date: "2024-03-21", time: "10:00 AM", patientName: "John Doe" },
-    { id: 2, date: "2024-03-21", time: "11:00 AM", patientName: "Jane Doe" },
-    // Add more sample appointments as needed
+    { id: 1, date: "2024-03-21", time: "10:00 AM" },
+    { id: 2, date: "2024-03-22", time: "11:00 AM" },
   ]);
+
+  const getDayFromDate = (dateString) => {
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const date = new Date(dateString);
+    return days[date.getDay()];
+  };
 
   return (
     <div style={{ textAlign: "center", paddingTop: "50px" }}>
@@ -33,24 +37,18 @@ export default function DoctorDetail() {
             <table className="border-collapse border border-gray-800 w-full">
               <thead>
                 <tr>
-                  <th className="border border-gray-800 px-4 py-2">Date</th>
+                  <th className="border border-gray-800 px-4 py-2">Day</th>
                   <th className="border border-gray-800 px-4 py-2">Time</th>
-                  <th className="border border-gray-800 px-4 py-2">
-                    Patient Name
-                  </th>
                 </tr>
               </thead>
               <tbody>
                 {appointments.map((appointment) => (
                   <tr key={appointment.id}>
                     <td className="border border-gray-800 px-4 py-2">
-                      {appointment.date}
+                      {getDayFromDate(appointment.date)}
                     </td>
                     <td className="border border-gray-800 px-4 py-2">
                       {appointment.time}
-                    </td>
-                    <td className="border border-gray-800 px-4 py-2">
-                      {appointment.patientName}
                     </td>
                   </tr>
                 ))}
@@ -58,7 +56,7 @@ export default function DoctorDetail() {
                   <tr>
                     <td
                       className="border border-gray-800 px-4 py-2"
-                      colSpan="3">
+                      colSpan="2">
                       No appointments scheduled
                     </td>
                   </tr>

@@ -5,7 +5,7 @@ export default function Navbar() {
   const navigate = useNavigate();
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-gray-200 dark:bg-gray-900">
+      <nav className="fixed top-0 left-0 right-0 z-50 border-gray-200 " style={{ backgroundColor: "#3436B7" }}>
         <div className="flex flex-wrap items-center justify-between mx-auto p-4">
           <Link
             to="/"
