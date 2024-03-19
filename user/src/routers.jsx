@@ -6,6 +6,7 @@ import Register from "./pages/register";
 import Home from "./pages/home";
 import DoctorPage from "./pages/doctor";
 import AppointPage from "./pages/appoint";
+import DoctorDetail from "./pages/doctorDetail";
 
 const router = createBrowserRouter([
   {
@@ -28,11 +29,15 @@ const router = createBrowserRouter([
   },
   {
     element: <Layout />,
-    loader: () => !localStorage.getItem("access_token") && redirect("/login"),
+    // loader: () => !localStorage.getItem("access_token") && redirect("/login"),
     children: [
       {
         path: "/doctors",
         element: <DoctorPage />,
+      },
+      {
+        path: "/doctors/:id",
+        element: <DoctorDetail />,
       },
       {
         path: "/appointments",
