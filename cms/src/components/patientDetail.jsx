@@ -26,19 +26,16 @@ export default function PatientDetail() {
     fetchData();
   }, [params.id]);
 
-  const calculateAge = (birthdate) => {
+  function calculateAge(birthDate) {
     const today = new Date();
-    const birthDate = new Date(birthdate);
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const monthDifference = today.getMonth() - birthDate.getMonth();
-    if (
-      monthDifference < 0 ||
-      (monthDifference === 0 && today.getDate() < birthDate.getDate())
-    ) {
+    const birth = new Date(birthDate);
+    let age = today.getFullYear() - birth.getFullYear();
+    const month = today.getMonth() - birth.getMonth();
+    if (month < 0 || (month === 0 && today.getDate() < birth.getDate())) {
       age--;
     }
     return age;
-  };
+  }
 
   return (
     <div style={{ textAlign: "center", paddingTop: "50px" }}>
@@ -59,10 +56,11 @@ export default function PatientDetail() {
                 Address: {patientData.address}
               </h1>
               <h1 className="font-semibold text-xl">
-                Age: {calculateAge(patientData.birthdate)}
+                Age: {calculateAge(patientData.birthDate)}
               </h1>
             </div>
           </div>
+          
           <div className="flex flex-col justify-center items-center pt-20">
             <div style={{ paddingBottom: "50px" }}>
               <h1 className="text-2xl font-bold">Medical History</h1>

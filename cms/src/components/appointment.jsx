@@ -4,7 +4,6 @@ import axios from "axios";
 export default function Appointment() {
   const [searchTerm, setSearchTerm] = useState("");
   const [appointmentData, setAppointmentData] = useState([]);
-  const [patientData, setPatientData] = useState([]);
 
   useEffect(() => {
     const fetchAppointmentData = async () => {
@@ -12,38 +11,18 @@ export default function Appointment() {
         const response = await axios.get(
           "http://localhost:3000/api/appointment"
         );
-        const appointments = response.data.map((appointment) => ({
-          ...appointment,
-          patientId: appointment.patientId,
-        }));
-        setAppointmentData(appointments);
+        setAppointmentData(response.data);
       } catch (error) {
         console.error("Error fetching appointment data:", error);
       }
     };
 
-    const fetchPatientData = async () => {
-      try {
-        const response = await axios.get("http://localhost:3000/api/patient");
-        setPatientData(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchPatientData();
     fetchAppointmentData();
   }, []);
 
-  console.log(appointmentData);
 
-  const getPatientName = (patientId) => {
-    const patient = patientData.find((patient) => patient.id === patientId);
-    return patient ? patient.name : "Unknown";
-  };
-
-  const filteredAppointmentData = appointmentData.filter((appointment) =>
-    appointment.doctor.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredAppointmentData = appointmentData.filter((result) =>
+    result.status.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const getDayFromDate = (dateString) => {
@@ -93,8 +72,8 @@ export default function Appointment() {
         <tbody>
           {filteredAppointmentData.map((appointment, index) => (
             <tr key={index}>
-              <td>{getPatientName(appointment.patientId)}</td>
-              <td>{appointment.doctor}</td>
+              <td>{appointment.patientId}</td>
+              <td>{appointment.doctorId}</td>
               <td>
                 {getDayFromDate(appointment.date)}, {appointment.date}
               </td>
