@@ -21,7 +21,6 @@ export default function Appointment() {
           "http://localhost:3000/api/appointment"
         );
 
-        console.log(response.data);
         setAppointmentData(response.data);
       } catch (error) {
         console.error("Error fetching appointment data:", error);
@@ -35,18 +34,14 @@ export default function Appointment() {
     result.status.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const getDayFromDate = (dateString) => {
-    const days = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-    ];
+  const getFormattedDate = (dateString) => {
     const date = new Date(dateString);
-    return days[date.getDay()];
+    return date.toLocaleDateString("en-US", {
+      weekday: "long",
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+    });
   };
 
   const openModal = (appointmentId) => {
@@ -70,14 +65,24 @@ export default function Appointment() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
+      const accessToken = localStorage.getItem("access_token");
+      if (!accessToken) {
+        throw new Error("Unauthorized: Access token not found.");
+      }
+
       const requestBody = {
         ...inputValue,
         appointmentId: selectedAppointment,
       };
 
-      await axios.post(
+      const response = await axios.post(
         "http://localhost:3000/api/medical-record/add-medical-records",
-        requestBody
+        requestBody,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
       );
 
       const updatedAppointmentData = appointmentData.map((appointment) => {
@@ -102,7 +107,9 @@ export default function Appointment() {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: error.response.data.message || "Something went wrong.",
+        text: error.response
+          ? error.response.data.message || "Something went wrong."
+          : error.message,
       });
     }
   };
@@ -142,9 +149,7 @@ export default function Appointment() {
             <tr key={index}>
               <td>{appointment.PatientDetails[0].name}</td>
               <td>{appointment.DoctorDetail[0].name}</td>
-              <td>
-                {getDayFromDate(appointment.date)}, {appointment.date}
-              </td>
+              <td>{getFormattedDate(appointment.date)}</td>
               <td>{appointment.time}:00</td>
               <td
                 className={
