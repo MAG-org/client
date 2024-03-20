@@ -1,7 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function SideBar() {
+  // Menggunakan useLocation untuk mendapatkan pathname saat ini
+  const location = useLocation();
+  const { pathname } = location;
+
   return (
     <aside
       id="logo-sidebar"
@@ -12,21 +16,29 @@ export default function SideBar() {
           <li>
             <Link
               to="/"
-              className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+              className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ${
+                pathname === "/doctors" ? "bg-gray-100 dark:bg-gray-700" : ""
+              }`}>
               <span className="flex-1 ms-3 whitespace-nowrap">Doctor</span>
             </Link>
           </li>
           <li>
             <Link
               to="/patients"
-              className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+              className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ${
+                pathname === "/patients" ? "bg-gray-100 dark:bg-gray-700" : ""
+              }`}>
               <span className="flex-1 ms-3 whitespace-nowrap">Patient</span>
             </Link>
           </li>
           <li>
             <Link
               to="/appointments"
-              className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+              className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ${
+                pathname === "/appointments"
+                  ? "bg-gray-100 dark:bg-gray-700"
+                  : ""
+              }`}>
               <span className="flex-1 ms-3 whitespace-nowrap">Appointment</span>
             </Link>
           </li>
