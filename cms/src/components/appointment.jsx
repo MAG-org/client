@@ -6,17 +6,19 @@ export default function Appointment() {
   const [appointmentData, setAppointmentData] = useState([]);
 
   useEffect(() => {
+    const fetchAppointmentData = async () => {
+      try {
+        const response = await axios.get("your_api_endpoint_here");
+        setAppointmentData(response.data);
+      } catch (error) {
+        console.error("Error fetching appointment data:", error);
+      }
+    };
+
     fetchAppointmentData();
   }, []);
 
-  const fetchAppointmentData = async () => {
-    try {
-      const response = await axios.get("your_api_endpoint_here");
-      setAppointmentData(response.data);
-    } catch (error) {
-      console.error("Error fetching appointment data:", error);
-    }
-  };
+  
 
   const filteredAppointmentData = appointmentData.filter(
     (appointment) =>
@@ -65,7 +67,7 @@ export default function Appointment() {
               <td>{appointment.doctorName}</td>
               <td>{getDayFromDate(appointment.date)}</td>
               <td>{appointment.time}</td>
-              <td className={appointment.status === "Paid" ? "text-green-500 font-semibold" : appointment.status === "Pending" ? "text-red-500 font-semibold" : ""}>
+              <td className={appointment.status === "Active" ? "text-green-500 font-semibold" : appointment.status === "Pending" ? "text-red-500 font-semibold" : ""}>
                 {appointment.status}
               </td>
             </tr>
