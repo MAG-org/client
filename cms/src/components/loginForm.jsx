@@ -28,7 +28,7 @@ export default function SignInSide() {
           password: loginInput.password,
         }
       );
-      localStorage.setItem("access_token", data.access_token);
+      localStorage.setItem("accessToken", data.accessToken);
       navigate("/");
     } catch (error) {
       console.log(error);

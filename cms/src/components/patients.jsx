@@ -36,7 +36,6 @@ export default function Patients() {
     }
     return age;
   }
-  
 
   return (
     <div
