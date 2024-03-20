@@ -3,30 +3,33 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 
 export default function PatientDetail() {
-  const [patientData, setPatientData] = useState({});
   const [medicalHistory, setMedicalHistory] = useState([]);
   const params = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [patientResponse, medicalHistoryResponse] = await Promise.all([
-          axios.get(`http://localhost:3000/api/patient/${params.id}`),
-          axios.get(`http://localhost:3000/api/medical-record/${params.id}/`),
-        ]);
-        setPatientData(patientResponse.data);
-        setMedicalHistory(medicalHistoryResponse.data);
+        const appointmentsResponse = await axios.get(
+          `http://localhost:3000/api/appointment`
+        );
+        const appointment = appointmentsResponse.data.find(
+          appointment => appointment.PatientDetails[0]._id === params.id
+        );
+        if (appointment) {
+          const medicalRecordResponse = await axios.get(
+            `http://localhost:3000/api/medical-record/${appointment._id}/`
+          );
+          setMedicalHistory(medicalRecordResponse.data);
+        } else {
+          setMedicalHistory([]);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
-        setPatientData([]);
         setMedicalHistory([]);
       }
     };
-    
     fetchData();
   }, [params.id]);
-
-  console.log(patientData);
 
   function calculateAge(birthDate) {
     const today = new Date();
@@ -46,19 +49,19 @@ export default function PatientDetail() {
           <div className="flex items-center">
             <div className="gap-2 text-left">
               <h1 className="font-extrabold text-3xl">
-                Name: {patientData.name}
+                Name: {medicalHistory.PatientDetails && medicalHistory.PatientDetails[0].name}
               </h1>
               <h1 className="font-semibold text-xl">
-                Email: {patientData.email}
+                Email: {medicalHistory.PatientDetails && medicalHistory.PatientDetails[0].email}
               </h1>
               <h1 className="font-semibold text-xl">
-                Phone: {patientData.phoneNumber}
+                Phone: {medicalHistory.PatientDetails && medicalHistory.PatientDetails[0].phoneNumber}
               </h1>
               <h1 className="font-semibold text-xl">
-                Address: {patientData.address}
+                Address: {medicalHistory.PatientDetails && medicalHistory.PatientDetails[0].address}
               </h1>
               <h1 className="font-semibold text-xl">
-                Age: {calculateAge(patientData.birthDate)}
+                Age: {calculateAge(medicalHistory.PatientDetails && medicalHistory.PatientDetails[0].birthDate)}
               </h1>
             </div>
           </div>
@@ -82,9 +85,13 @@ export default function PatientDetail() {
                   <tr key={entry.id}>
                     <td className="px-4 py-2">{entry.date}</td>
                     <td className="px-4 py-2">{entry.time}</td>
-                    <td className="px-4 py-2">{entry.DoctorDetail.name}</td>
-                    <td className="px-4 py-2">{entry.disease_name}</td>
-                    <td className="px-4 py-2">{entry.docter_note}</td>
+                    <td className="px-4 py-2">{entry.DoctorDetail[0].name}</td>
+                    <td className="px-4 py-2">
+                      {entry.DoctorDetail[0].disease_name}
+                    </td>
+                    <td className="px-4 py-2">
+                      {entry.DoctorDetail[0].docter_note}
+                    </td>
                   </tr>
                 ))}
                 {medicalHistory.length === 0 && (
