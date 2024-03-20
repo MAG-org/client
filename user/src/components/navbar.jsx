@@ -7,7 +7,7 @@ export default function Navbar() {
 
   useEffect(() => {
     // Cek apakah access_token ada di local storage
-    const accessToken = localStorage.getItem("access_token");
+    const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
       setIsLoggedIn(true);
     } else {
@@ -17,13 +17,13 @@ export default function Navbar() {
 
   const handleLogout = () => {
     // Hapus access_token dari local storage dan ubah state isLoggedIn menjadi false
-    localStorage.removeItem("access_token");
+    localStorage.removeItem("accessToken");
     setIsLoggedIn(false);
   };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-gray-200 dark:bg-gray-900">
-      <div className="flex flex-wrap items-center justify-between mx-auto p-4">
+      <div className="flex flex-wrap items-center justify-between mx-auto p-4 px-16">
         <Link
           to="/"
           className="flex items-center space-x-3 rtl:space-x-reverse"
@@ -34,7 +34,7 @@ export default function Navbar() {
             alt="Logo"
           />
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-            MediCare
+            HospiCare
           </span>
         </Link>
         <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">

@@ -12,36 +12,32 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <Register />,
+    loader: () => localStorage.getItem("accessToken") && redirect("/")
   },
   {
     path: "/login",
     element: <Login />,
-    loader: () => localStorage.getItem("access_token") && redirect("/"),
+    loader: () => localStorage.getItem("accessToken") && redirect("/"),
   },
   {
-    element: <Layout />,
+    element: <Layout/>,
+    path: '',
     children: [
       {
         path: "/",
-        element: <Home />,
+        element: <Home/>,
       },
-    ],
-  },
-  {
-    element: <Layout />,
-    // loader: () => !localStorage.getItem("access_token") && redirect("/login"),
-    children: [
       {
         path: "/doctors",
-        element: <DoctorPage />,
+        element: <DoctorPage/>,
       },
       {
         path: "/doctors/:id",
-        element: <DoctorDetail />,
+        element: <DoctorDetail/>,
       },
       {
         path: "/appointments",
-        element: <AppointPage />,
+        element: <AppointPage/>,
       },
     ],
   },

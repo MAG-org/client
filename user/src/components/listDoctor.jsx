@@ -18,7 +18,7 @@ export default function ListDoctor() {
         onChange={handleSearchChange}
         className="border border-gray-300 px-4 py-2 rounded-md mb-5"
       />
-      <DoctorCard searchTerm={searchTerm} />
+      {/* <DoctorCard searchTerm={searchTerm} /> */}
     </div>
   );
 }
