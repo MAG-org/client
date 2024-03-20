@@ -75,11 +75,22 @@ export default function Appointment() {
         appointmentId: selectedAppointment,
       };
 
-      console.log(requestBody);
       await axios.post(
         "http://localhost:3000/api/medical-record/add-medical-records",
         requestBody
       );
+
+      const updatedAppointmentData = appointmentData.map((appointment) => {
+        if (appointment._id === selectedAppointment) {
+          return {
+            ...appointment,
+            status: "Finished",
+          };
+        }
+        return appointment;
+      });
+
+      setAppointmentData(updatedAppointmentData);
 
       closeModal();
       Swal.fire({
