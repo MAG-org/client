@@ -26,6 +26,18 @@ export default function Patients() {
       patient.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  function calculateAge(birthDate) {
+    const today = new Date();
+    const birth = new Date(birthDate);
+    let age = today.getFullYear() - birth.getFullYear();
+    const month = today.getMonth() - birth.getMonth();
+    if (month < 0 || (month === 0 && today.getDate() < birth.getDate())) {
+      age--;
+    }
+    return age;
+  }
+  
+
   return (
     <div
       className="flex-1 overflow-x-auto"
@@ -53,7 +65,7 @@ export default function Patients() {
           <tr>
             <th style={{ fontSize: "20px" }}>Name</th>
             <th style={{ fontSize: "20px" }}>Email</th>
-            <th style={{ fontSize: "20px" }}>Date</th>
+            <th style={{ fontSize: "20px" }}>Age</th>
             <th style={{ fontSize: "20px" }}>Phone Number</th>
             <th style={{ fontSize: "20px" }}>Gender</th>
             <th style={{ fontSize: "20px" }}>Address</th>
@@ -66,7 +78,7 @@ export default function Patients() {
             <tr key={patient._id}>
               <td>{patient.name}</td>
               <td>{patient.email}</td>
-              <td>{patient.birthDate}</td>
+              <td>{calculateAge(patient.birthDate)}</td>
               <td>{patient.phoneNumber}</td>
               <td>{patient.gender}</td>
               <td>{patient.address}</td>
