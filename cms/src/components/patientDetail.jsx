@@ -60,6 +60,7 @@ export default function PatientDetail() {
               </h1>
             </div>
           </div>
+          
           <div className="flex flex-col justify-center items-center pt-20">
             <div style={{ paddingBottom: "50px" }}>
               <h1 className="text-2xl font-bold">Medical History</h1>
