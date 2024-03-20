@@ -9,7 +9,7 @@ export default function HomePage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("API_ENDPOINT_URL");
+        const response = await axios.get("http://localhost:3000/api/doctor");
         setDoctors(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -22,7 +22,7 @@ export default function HomePage() {
   const filteredDoctors = doctors.filter(
     (doctor) =>
       doctor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      doctor.specialist.toLowerCase().includes(searchTerm.toLowerCase())
+      doctor.specialize.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -49,7 +49,7 @@ export default function HomePage() {
           {/* head */}
           <thead>
             <tr>
-              <th style={{ fontSize: "20px" }}>No.</th>
+              <th style={{ fontSize: "20px" }}>ID</th>
               <th style={{ fontSize: "20px" }}>Name</th>
               <th style={{ fontSize: "20px" }}>Specialist</th>
               <th style={{ fontSize: "20px" }}>Action</th>
@@ -58,12 +58,12 @@ export default function HomePage() {
           <tbody>
             {/* Data Pasien */}
             {filteredDoctors.map((doctor) => (
-              <tr key={doctor.id}>
-                <td>{doctor.id}</td>
+              <tr key={doctor._id}>
+                <td>{doctor._id}</td>
                 <td>{doctor.name}</td>
-                <td>{doctor.specialist}</td>
+                <td>{doctor.specialize}</td>
                 <td>
-                  <Link to={`/doctors/${doctor.id}`}>
+                  <Link to={`/doctors/${doctor._id}`}>
                     <button className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                       View
                     </button>
