@@ -22,6 +22,7 @@ export default function PatientDetail() {
         setMedicalHistory([]);
       }
     };
+    
     fetchData();
   }, [params.id]);
 
