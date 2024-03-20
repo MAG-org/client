@@ -26,22 +26,14 @@ export default function PatientDetail() {
       diagnosis: "Sore Throat",
       prescription: "Antibiotics",
     },
-    // Add more sample medical history entries as needed
   ]);
 
   return (
     <div style={{ textAlign: "center", paddingTop: "50px" }}>
       <div className="flex justify-center items-center">
         <div className="w-3/4 shadow-xl rounded-2xl p-10 border ml-60">
-          <div className="flex justify-around gap-11 items-center">
-            <div>
-              <img
-                src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHwxMnx8cHJvZmlsZXxlbnwwfDB8fHwxNzA2NzQ5NjEyfDA&ixlib=rb-4.0.3&q=80&w=1080"
-                alt=""
-                className="rounded-2xl h-40 w-40"
-              />
-            </div>
-            <div className="flex flex-col gap-2 text-left">
+          <div className="flex items-center">
+            <div className="gap-2 text-left">
               <h1 className="font-extrabold text-3xl">
                 Name: {patientData.name}
               </h1>
@@ -58,21 +50,21 @@ export default function PatientDetail() {
             </div>
           </div>
           <div className="flex flex-col justify-center items-center pt-20">
-            <div>
+            <div style={{ paddingBottom: "50px" }}>
               <h1 className="text-2xl font-bold">Medical History</h1>
             </div>
-            <table className="border-collapse border border-gray-800 w-full">
+            <table className="w-full">
               <thead>
                 <tr>
-                  <th className="border border-gray-800 px-4 py-2">Date</th>
-                  <th className="border border-gray-800 px-4 py-2">Time</th>
-                  <th className="border border-gray-800 px-4 py-2">
+                  <th className="px-4 py-2">Date</th>
+                  <th className="px-4 py-2">Time</th>
+                  <th className="px-4 py-2">
                     Doctor's Name
                   </th>
-                  <th className="border border-gray-800 px-4 py-2">
+                  <th className=" py-2">
                     Diagnosis
                   </th>
-                  <th className="border border-gray-800 px-4 py-2">
+                  <th className="px-4 py-2">
                     Prescription
                   </th>
                 </tr>
@@ -80,19 +72,19 @@ export default function PatientDetail() {
               <tbody>
                 {medicalHistory.map((entry) => (
                   <tr key={entry.id}>
-                    <td className="border border-gray-800 px-4 py-2">
+                    <td className="px-4 py-2">
                       {entry.date}
                     </td>
-                    <td className="border border-gray-800 px-4 py-2">
+                    <td className="px-4 py-2">
                       {entry.time}
                     </td>
-                    <td className="border border-gray-800 px-4 py-2">
+                    <td className="px-4 py-2">
                       {entry.doctorName}
                     </td>
-                    <td className="border border-gray-800 px-4 py-2">
+                    <td className="px-4 py-2">
                       {entry.diagnosis}
                     </td>
-                    <td className="border border-gray-800 px-4 py-2">
+                    <td className="px-4 py-2">
                       {entry.prescription}
                     </td>
                   </tr>
@@ -100,7 +92,7 @@ export default function PatientDetail() {
                 {medicalHistory.length === 0 && (
                   <tr>
                     <td
-                      className="border border-gray-800 px-4 py-2"
+                      className="px-4 py-2"
                       colSpan="6">
                       No medical history available
                     </td>

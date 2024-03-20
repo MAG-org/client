@@ -16,7 +16,7 @@ export default function DoctorDetail() {
     <div style={{ textAlign: "center", paddingTop: "50px" }}>
       <div className="flex justify-center items-center">
         <div className="w-3/4 shadow-xl rounded-2xl p-10 border ml-60">
-          <div className="flex justify-around gap-11 items-center">
+          <div className="flex items-center">
             <div>
               <img
                 src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHwxMnx8cHJvZmlsZXxlbnwwfDB8fHwxNzA2NzQ5NjEyfDA&ixlib=rb-4.0.3&q=80&w=1080"
@@ -24,30 +24,30 @@ export default function DoctorDetail() {
                 className="rounded-2xl h-40 w-40"
               />
             </div>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 text-left ml-20">
               <h1 className="font-extrabold text-3xl">Name:</h1>
               <h1 className="font-semibold text-xl">Specialist:</h1>
             </div>
           </div>
 
           <div className="flex flex-col justify-center items-center pt-20">
-            <div>
+            <div style={{ paddingBottom: "50px" }}>
               <h1 className="font-extrabold text-2xl">Schedule</h1>
             </div>
-            <table className="border-collapse border border-gray-800 w-full">
+            <table className="w-full">
               <thead>
                 <tr>
-                  <th className="border border-gray-800 px-4 py-2">Day</th>
-                  <th className="border border-gray-800 px-4 py-2">Time</th>
+                  <th className="px-4 py-2">Day</th>
+                  <th className="px-4 py-2">Time</th>
                 </tr>
               </thead>
               <tbody>
                 {appointments.map((appointment) => (
                   <tr key={appointment.id}>
-                    <td className="border border-gray-800 px-4 py-2">
+                    <td className="px-4 py-2">
                       {getDayFromDate(appointment.date)}
                     </td>
-                    <td className="border border-gray-800 px-4 py-2">
+                    <td className="px-4 py-2">
                       {appointment.time}
                     </td>
                   </tr>
@@ -55,7 +55,7 @@ export default function DoctorDetail() {
                 {appointments.length === 0 && (
                   <tr>
                     <td
-                      className="border border-gray-800 px-4 py-2"
+                      className="px-4 py-2"
                       colSpan="2">
                       No appointments scheduled
                     </td>

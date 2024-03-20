@@ -1,31 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 export default function Appointment() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [appointmentData, setAppointmentData] = useState([]);
 
-  const appointmentData = [
-    {
-      patientName: "John Doe",
-      doctorName: "Dr. Smith",
-      date: "2024-03-10",
-      time: "10:00 AM",
-      status: "Paid",
-    },
-    {
-      patientName: "Jane Doe",
-      doctorName: "Dr. Johnson",
-      date: "2024-03-15",
-      time: "02:30 PM",
-      status: "Pending",
-    },
-    {
-      patientName: "Alice Smith",
-      doctorName: "Dr. Brown",
-      date: "2024-03-20",
-      time: "11:15 AM",
-      status: "Pending",
-    },
-  ];
+  useEffect(() => {
+    const fetchAppointmentData = async () => {
+      try {
+        const response = await axios.get("your_api_endpoint_here");
+        setAppointmentData(response.data);
+      } catch (error) {
+        console.error("Error fetching appointment data:", error);
+      }
+    };
+
+    fetchAppointmentData();
+  }, []);
+
+  
 
   const filteredAppointmentData = appointmentData.filter(
     (appointment) =>
@@ -74,7 +67,7 @@ export default function Appointment() {
               <td>{appointment.doctorName}</td>
               <td>{getDayFromDate(appointment.date)}</td>
               <td>{appointment.time}</td>
-              <td className={appointment.status === "Paid" ? "text-green-500 font-semibold" : appointment.status === "Pending" ? "text-red-500 font-semibold" : ""}>
+              <td className={appointment.status === "Active" ? "text-green-500 font-semibold" : appointment.status === "Pending" ? "text-red-500 font-semibold" : ""}>
                 {appointment.status}
               </td>
             </tr>
