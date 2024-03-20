@@ -12,7 +12,7 @@ export default function PatientDetail() {
       try {
         const [patientResponse, medicalHistoryResponse] = await Promise.all([
           axios.get(`http://localhost:3000/api/patient/${params.id}`),
-          axios.get(`http://localhost:3000/api/appointment/`),
+          axios.get(`http://localhost:3000/api/medical-record/${params.id}/`),
         ]);
         setPatientData(patientResponse.data);
         setMedicalHistory(medicalHistoryResponse.data);
@@ -22,9 +22,11 @@ export default function PatientDetail() {
         setMedicalHistory([]);
       }
     };
-
+    
     fetchData();
   }, [params.id]);
+
+  console.log(patientData);
 
   function calculateAge(birthDate) {
     const today = new Date();
@@ -60,7 +62,7 @@ export default function PatientDetail() {
               </h1>
             </div>
           </div>
-          
+
           <div className="flex flex-col justify-center items-center pt-20">
             <div style={{ paddingBottom: "50px" }}>
               <h1 className="text-2xl font-bold">Medical History</h1>
@@ -80,7 +82,7 @@ export default function PatientDetail() {
                   <tr key={entry.id}>
                     <td className="px-4 py-2">{entry.date}</td>
                     <td className="px-4 py-2">{entry.time}</td>
-                    <td className="px-4 py-2">{entry.doctor}</td>
+                    <td className="px-4 py-2">{entry.DoctorDetail.name}</td>
                     <td className="px-4 py-2">{entry.disease_name}</td>
                     <td className="px-4 py-2">{entry.docter_note}</td>
                   </tr>
