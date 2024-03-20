@@ -22,8 +22,7 @@ export default function SignInSide() {
     event.preventDefault();
     try {
       const data = await axios.post(
-        // API URL HERE
-        "API_URL_HERE", // Ganti dengan URL API yang benar
+        "API_URL_HERE",
         {
           email: loginInput.email,
           password: loginInput.password,

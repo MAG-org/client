@@ -1,32 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 export default function PatientDetail() {
-  const [patientData, setPatientData] = useState({
-    name: "John Doe",
-    email: "johndoe@example.com",
-    phone: "123-456-7890",
-    address: "123 Main St, City, Country",
-    age: 30,
-  });
+  const [patientData, setPatientData] = useState({});
+  const [medicalHistory, setMedicalHistory] = useState([]);
+  const params = useParams();
 
-  const [medicalHistory, setMedicalHistory] = useState([
-    {
-      id: 1,
-      date: "2024-03-21",
-      time: "10:00 AM",
-      doctorName: "Dr. Smith",
-      diagnosis: "Fever",
-      prescription: "Paracetamol",
-    },
-    {
-      id: 2,
-      date: "2024-03-21",
-      time: "11:00 AM",
-      doctorName: "Dr. Johnson",
-      diagnosis: "Sore Throat",
-      prescription: "Antibiotics",
-    },
-  ]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [patientResponse, medicalHistoryResponse] = await Promise.all([
+          axios.get(`http://localhost:3000/api/patient/${params.id}`),
+          axios.get(`http://localhost:3000/api/appointment/`),
+        ]);
+        setPatientData(patientResponse.data);
+        setMedicalHistory(medicalHistoryResponse.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setPatientData([]);
+        setMedicalHistory([]);
+      }
+    };
+
+    fetchData();
+  }, [params.id]);
+
+  const calculateAge = (birthdate) => {
+    const today = new Date();
+    const birthDate = new Date(birthdate);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDifference = today.getMonth() - birthDate.getMonth();
+    if (
+      monthDifference < 0 ||
+      (monthDifference === 0 && today.getDate() < birthDate.getDate())
+    ) {
+      age--;
+    }
+    return age;
+  };
 
   return (
     <div style={{ textAlign: "center", paddingTop: "50px" }}>
@@ -41,12 +53,14 @@ export default function PatientDetail() {
                 Email: {patientData.email}
               </h1>
               <h1 className="font-semibold text-xl">
-                Phone: {patientData.phone}
+                Phone: {patientData.phoneNumber}
               </h1>
               <h1 className="font-semibold text-xl">
                 Address: {patientData.address}
               </h1>
-              <h1 className="font-semibold text-xl">Age: {patientData.age}</h1>
+              <h1 className="font-semibold text-xl">
+                Age: {calculateAge(patientData.birthdate)}
+              </h1>
             </div>
           </div>
           <div className="flex flex-col justify-center items-center pt-20">
@@ -58,42 +72,24 @@ export default function PatientDetail() {
                 <tr>
                   <th className="px-4 py-2">Date</th>
                   <th className="px-4 py-2">Time</th>
-                  <th className="px-4 py-2">
-                    Doctor's Name
-                  </th>
-                  <th className=" py-2">
-                    Diagnosis
-                  </th>
-                  <th className="px-4 py-2">
-                    Prescription
-                  </th>
+                  <th className="px-4 py-2">Doctor's Name</th>
+                  <th className=" py-2">Diagnosis</th>
+                  <th className="px-4 py-2">Prescription</th>
                 </tr>
               </thead>
               <tbody>
                 {medicalHistory.map((entry) => (
                   <tr key={entry.id}>
-                    <td className="px-4 py-2">
-                      {entry.date}
-                    </td>
-                    <td className="px-4 py-2">
-                      {entry.time}
-                    </td>
-                    <td className="px-4 py-2">
-                      {entry.doctorName}
-                    </td>
-                    <td className="px-4 py-2">
-                      {entry.diagnosis}
-                    </td>
-                    <td className="px-4 py-2">
-                      {entry.prescription}
-                    </td>
+                    <td className="px-4 py-2">{entry.date}</td>
+                    <td className="px-4 py-2">{entry.time}</td>
+                    <td className="px-4 py-2">{entry.doctor}</td>
+                    <td className="px-4 py-2">{entry.disease_name}</td>
+                    <td className="px-4 py-2">{entry.docter_note}</td>
                   </tr>
                 ))}
                 {medicalHistory.length === 0 && (
                   <tr>
-                    <td
-                      className="px-4 py-2"
-                      colSpan="6">
+                    <td className="px-4 py-2" colSpan="6">
                       No medical history available
                     </td>
                   </tr>

@@ -1,13 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
 export default function DoctorDetail() {
-  const [appointments, setAppointments] = useState([
-    { id: 1, date: "2024-03-21", time: "10:00 AM" },
-    { id: 2, date: "2024-03-22", time: "11:00 AM" },
-  ]);
+  const [doctorData, setDoctorData] = useState([]);
+  const params = useParams();
+
+  useEffect(() => {
+    const fetchDoctorData = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/api/doctor/" + params.id
+        );
+        setDoctorData(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchDoctorData();
+  }, [params.id]);
 
   const getDayFromDate = (dateString) => {
-    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const days = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
     const date = new Date(dateString);
     return days[date.getDay()];
   };
@@ -19,14 +41,18 @@ export default function DoctorDetail() {
           <div className="flex items-center">
             <div>
               <img
-                src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHwxMnx8cHJvZmlsZXxlbnwwfDB8fHwxNzA2NzQ5NjEyfDA&ixlib=rb-4.0.3&q=80&w=1080"
+                src={doctorData.imgUrl}
                 alt=""
                 className="rounded-2xl h-40 w-40"
               />
             </div>
             <div className="flex flex-col gap-2 text-left ml-20">
-              <h1 className="font-extrabold text-3xl">Name:</h1>
-              <h1 className="font-semibold text-xl">Specialist:</h1>
+              <h1 className="font-extrabold text-3xl">
+                Name: {doctorData.name}
+              </h1>
+              <h1 className="font-semibold text-xl">
+                Specialist: {doctorData.specialize}
+              </h1>
             </div>
           </div>
 
@@ -42,21 +68,18 @@ export default function DoctorDetail() {
                 </tr>
               </thead>
               <tbody>
-                {appointments.map((appointment) => (
-                  <tr key={appointment.id}>
-                    <td className="px-4 py-2">
-                      {getDayFromDate(appointment.date)}
-                    </td>
-                    <td className="px-4 py-2">
-                      {appointment.time}
-                    </td>
-                  </tr>
-                ))}
-                {appointments.length === 0 && (
+                {doctorData.schedule &&
+                  doctorData.schedule.map((data, index) => (
+                    <tr key={index}>
+                      <td className="px-4 py-2">{data.day}</td>
+                      <td className="px-4 py-2">
+                        {`${data.start}:00 - ${data.end}:00`}
+                      </td>
+                    </tr>
+                  ))}
+                {doctorData.schedule && doctorData.schedule.length === 0 && (
                   <tr>
-                    <td
-                      className="px-4 py-2"
-                      colSpan="2">
+                    <td className="px-4 py-2" colSpan="2">
                       No appointments scheduled
                     </td>
                   </tr>
