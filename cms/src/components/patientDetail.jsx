@@ -7,29 +7,43 @@ export default function PatientDetail() {
   const params = useParams();
 
   useEffect(() => {
+    // const fetchData = async () => {
+    //   try {
+    //     const appointmentsResponse = await axios.get(
+    //       `http://localhost:3000/api/appointment`
+    //     );
+    //     const appointment = appointmentsResponse.data.find(
+    //       appointment => appointment.PatientDetails[0]._id === params.id
+    //     );
+    //     if (appointment) {
+    //       const medicalRecordResponse = await axios.get(
+    //         `http://localhost:3000/api/medical-record/${appointment._id}/`
+    //       );
+    //       setMedicalHistory(medicalRecordResponse.data);
+    //     } else {
+    //       setMedicalHistory([]);
+    //     }
+    //   } catch (error) {
+    //     console.error("Error fetching data:", error);
+    //     setMedicalHistory([]);
+    //   }
+    // };
+    // fetchData();
+
     const fetchData = async () => {
       try {
-        const appointmentsResponse = await axios.get(
-          `http://localhost:3000/api/appointment`
+        const response = await axios.get(
+          `http://localhost:3000/api/patient/${params.id}`
         );
-        const appointment = appointmentsResponse.data.find(
-          appointment => appointment.PatientDetails[0]._id === params.id
-        );
-        if (appointment) {
-          const medicalRecordResponse = await axios.get(
-            `http://localhost:3000/api/medical-record/${appointment._id}/`
-          );
-          setMedicalHistory(medicalRecordResponse.data);
-        } else {
-          setMedicalHistory([]);
-        }
+        setMedicalHistory(response.data);
       } catch (error) {
-        console.error("Error fetching data:", error);
-        setMedicalHistory([]);
+        console.log(error);
       }
     };
     fetchData();
   }, [params.id]);
+
+  console.log(medicalHistory);
 
   function calculateAge(birthDate) {
     const today = new Date();
@@ -47,21 +61,41 @@ export default function PatientDetail() {
       <div className="flex justify-center items-center">
         <div className="w-3/4 shadow-xl rounded-2xl p-10 border ml-60">
           <div className="flex items-center">
-            <div className="gap-2 text-left">
-              <h1 className="font-extrabold text-3xl">
-                Name: {medicalHistory.PatientDetails && medicalHistory.PatientDetails[0].name}
+            <div className="gap-3 text-left">
+              <h1 className="flex font-bold text-2xl">
+                Name:
+                <div className="flex font-semibold text-xl pt-2 pl-5">
+                  {medicalHistory.name}
+                  {/* {medicalHistory.PatientDetails && medicalHistory.PatientDetails[0].name} */}
+                </div>
               </h1>
-              <h1 className="font-semibold text-xl">
-                Email: {medicalHistory.PatientDetails && medicalHistory.PatientDetails[0].email}
+              <h1 className="flex font-bold text-2xl">
+                Email:
+                <div className="flex font-semibold text-xl pt-2 pl-5">
+                  {medicalHistory.email}
+                  {/* {medicalHistory.PatientDetails && medicalHistory.PatientDetails[0].email} */}
+                </div>
               </h1>
-              <h1 className="font-semibold text-xl">
-                Phone: {medicalHistory.PatientDetails && medicalHistory.PatientDetails[0].phoneNumber}
+              <h1 className="flex font-bold text-2xl">
+                Phone:
+                <div className="flex font-semibold text-xl pt-2 pl-5">
+                  {medicalHistory.phoneNumber}
+                  {/* {medicalHistory.PatientDetails && medicalHistory.PatientDetails[0].phoneNumber} */}
+                </div>
               </h1>
-              <h1 className="font-semibold text-xl">
-                Address: {medicalHistory.PatientDetails && medicalHistory.PatientDetails[0].address}
+              <h1 className="flex font-bold text-2xl">
+                Address:
+                <div className="flex font-semibold text-xl pt-2 pl-5">
+                  {medicalHistory.address}
+                  {/* {medicalHistory.PatientDetails && medicalHistory.PatientDetails[0].address} */}
+                </div>
               </h1>
-              <h1 className="font-semibold text-xl">
-                Age: {calculateAge(medicalHistory.PatientDetails && medicalHistory.PatientDetails[0].birthDate)}
+              <h1 className="flex font-bold text-2xl">
+                Age:
+                <div className="flex font-semibold text-xl pt-2 pl-5">
+                  {calculateAge(medicalHistory.birthDate)}
+                  {/* {calculateAge(medicalHistory.PatientDetails && medicalHistory.PatientDetails[0].birthDate)} */}
+                </div>
               </h1>
             </div>
           </div>
@@ -81,7 +115,7 @@ export default function PatientDetail() {
                 </tr>
               </thead>
               <tbody>
-                {medicalHistory.map((entry) => (
+                {/* {medicalHistory.map((entry) => (
                   <tr key={entry.id}>
                     <td className="px-4 py-2">{entry.date}</td>
                     <td className="px-4 py-2">{entry.time}</td>
@@ -100,7 +134,7 @@ export default function PatientDetail() {
                       No medical history available
                     </td>
                   </tr>
-                )}
+                )} */}
               </tbody>
             </table>
           </div>

@@ -65,9 +65,9 @@ export default function Appointment() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const accessToken = localStorage.getItem("access_token");
+      const accessToken = localStorage.getItem("accessToken");
       if (!accessToken) {
-        throw new Error("Unauthorized: Access token not found.");
+        throw new Error("Unauthorized: Please Login First");
       }
 
       const requestBody = {
@@ -75,7 +75,7 @@ export default function Appointment() {
         appointmentId: selectedAppointment,
       };
 
-      const response = await axios.post(
+      await axios.post(
         "http://localhost:3000/api/medical-record/add-medical-records",
         requestBody,
         {

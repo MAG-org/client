@@ -22,13 +22,13 @@ export default function SignInSide() {
     event.preventDefault();
     try {
       const data = await axios.post(
-        "API_URL_HERE",
+        "http://localhost:3000/api/admin/login-admin",
         {
           email: loginInput.email,
           password: loginInput.password,
         }
       );
-      localStorage.setItem("accessToken", data.accessToken);
+      localStorage.setItem("accessToken", data.data.accessToken);
       navigate("/");
     } catch (error) {
       console.log(error);
