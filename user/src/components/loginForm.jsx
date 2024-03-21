@@ -21,13 +21,16 @@ export default function SignInSide() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const data = await axios.post('http://localhost:3000/api/patient/login', loginInput, {
+      const response = await axios.post('http://localhost:3000/api/patient/login', loginInput, {
           headers: {
             'Access-Control-Allow-Origin': '*'
           }
       });
 
-      localStorage.setItem("accessToken", data.accessToken);
+      console.log(response.data);
+
+      localStorage.setItem("accessToken", response.data.accessToken);
+
       navigate("/");
     } catch (error) {
       console.log(error);

@@ -7,6 +7,8 @@ import Home from "./pages/home";
 import DoctorPage from "./pages/doctor";
 import AppointPage from "./pages/appoint";
 import DoctorDetail from "./pages/doctorDetail";
+import Booking from "./pages/booking";
+import Appoint from "./pages/appoint";
 
 const router = createBrowserRouter([
   {
@@ -36,8 +38,26 @@ const router = createBrowserRouter([
         element: <DoctorDetail/>,
       },
       {
+        path: '/booking/:id',
+        element: <Booking/>,
+        loader: async () => {
+          if(!localStorage.getItem('accessToken')){
+            throw redirect("/login")
+          }
+
+          return null
+        }
+      },
+      {
         path: "/appointments",
-        element: <AppointPage/>,
+        element: <Appoint/>,
+        loader: async () => {
+          if(!localStorage.getItem('accessToken')){
+            throw redirect("/login")
+          }
+
+          return null
+        }
       },
     ],
   },
