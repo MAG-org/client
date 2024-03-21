@@ -22,7 +22,7 @@ export default function Appointment() {
   };
 
   return (
-    <div style={{ textAlign: "center", paddingTop: "50px" }}>
+    <div style={{ textAlign: "center", paddingTop: "50px" }} className="min-h-screen">
       <h1>Appointment</h1>
       {currentUser ? (
         // Tampilkan tombol untuk menambah janji temu jika pengguna sudah login

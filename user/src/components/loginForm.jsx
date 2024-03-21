@@ -21,14 +21,16 @@ export default function SignInSide() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const data = await axios.post(
-        //API URL HERE
-        {
-          email: loginInput.email,
-          password: loginInput.password,
-        }
-      );
-      localStorage.setItem("access_token", data.access_token);
+      const response = await axios.post('http://localhost:3000/api/patient/login', loginInput, {
+          headers: {
+            'Access-Control-Allow-Origin': '*'
+          }
+      });
+
+      console.log(response.data);
+
+      localStorage.setItem("accessToken", response.data.accessToken);
+
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -52,7 +54,7 @@ export default function SignInSide() {
       </div>
       {/* Right: Login Form */}
       <div className="lg:p-36 md:p-52 sm:p-20 p-8 w-full lg:w-1/2">
-        <h1 className="text-2xl font-semibold mb-4">Sign In</h1>
+        <h1 className="text-3xl font-bold mb-4">Sign In</h1>
         <form onSubmit={handleSubmit}>
           {/* Username Input */}
           <div className="mb-4">
@@ -64,9 +66,6 @@ export default function SignInSide() {
               value={loginInput.email}
               onChange={handleChangeInput}
               className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
-              style={{
-                borderRadius: "100px",
-              }}
             />
           </div>
           {/* Password Input */}
@@ -79,26 +78,15 @@ export default function SignInSide() {
               value={loginInput.password}
               onChange={handleChangeInput}
               className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
-              style={{
-                borderRadius: "100px",
-              }}
             />
           </div>
           {/* Login Button */}
-          <button
-            type="submit"
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md py-2 px-4 w-full"
-            style={{
-              borderRadius: "100px",
-            }}>
+          <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md py-2 px-4 w-full">
             Login
           </button>
         </form>
-        <p>
-          Don't have an account?{" "}
-          <Link to="/register" className="text-blue-500 hover:underline">
-            Sign up
-          </Link>
+        <p className="text-center mt-4">
+          Don't have an account? <Link to="/register" className="text-blue-500 hover:underline">Sign up</Link>
         </p>
       </div>
     </div>

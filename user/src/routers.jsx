@@ -7,23 +7,27 @@ import Home from "./pages/home";
 import DoctorPage from "./pages/doctor";
 import AppointPage from "./pages/appoint";
 import DoctorDetail from "./pages/doctorDetail";
+import Booking from "./pages/booking";
+import Appoint from "./pages/appoint";
 
 const router = createBrowserRouter([
   {
     path: "/register",
     element: <Register />,
+    loader: () => localStorage.getItem("accessToken") && redirect("/")
   },
   {
     path: "/login",
     element: <Login />,
-    loader: () => localStorage.getItem("access_token") && redirect("/"),
+    loader: () => localStorage.getItem("accessToken") && redirect("/"),
   },
   {
-    element: <Layout />,
+    element: <Layout/>,
+    path: '',
     children: [
       {
         path: "/",
-        element: <Home />,
+        element: <Home/>,
       },
     ],
   },
@@ -33,15 +37,33 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/doctors",
-        element: <DoctorPage />,
+        element: <DoctorPage/>,
       },
       {
         path: "/doctors/:id",
-        element: <DoctorDetail />,
+        element: <DoctorDetail/>,
+      },
+      {
+        path: '/booking/:id',
+        element: <Booking/>,
+        loader: async () => {
+          if(!localStorage.getItem('accessToken')){
+            throw redirect("/login")
+          }
+
+          return null
+        }
       },
       {
         path: "/appointments",
-        element: <AppointPage />,
+        element: <Appoint/>,
+        loader: async () => {
+          if(!localStorage.getItem('accessToken')){
+            throw redirect("/login")
+          }
+
+          return null
+        }
       },
     ],
   },
