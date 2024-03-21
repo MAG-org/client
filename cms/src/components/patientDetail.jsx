@@ -63,37 +63,37 @@ export default function PatientDetail() {
           <div className="flex items-center">
             <div className="gap-3 text-left">
               <h1 className="flex font-bold text-2xl">
-                Name:
-                <div className="flex font-semibold text-xl pt-2 pl-5">
-                  {medicalHistory.name}
+                Name
+                <div className="flex font-semibold text-xl pt-1 pl-9">
+                  : {medicalHistory.name}
                   {/* {medicalHistory.PatientDetails && medicalHistory.PatientDetails[0].name} */}
                 </div>
               </h1>
               <h1 className="flex font-bold text-2xl">
-                Email:
-                <div className="flex font-semibold text-xl pt-2 pl-5">
-                  {medicalHistory.email}
+                Email
+                <div className="flex font-semibold text-xl pt-1 pl-10">
+                  : {medicalHistory.email}
                   {/* {medicalHistory.PatientDetails && medicalHistory.PatientDetails[0].email} */}
                 </div>
               </h1>
               <h1 className="flex font-bold text-2xl">
-                Phone:
-                <div className="flex font-semibold text-xl pt-2 pl-5">
-                  {medicalHistory.phoneNumber}
+                Phone
+                <div className="flex font-semibold text-xl pt-1 pl-7">
+                  : {medicalHistory.phoneNumber}
                   {/* {medicalHistory.PatientDetails && medicalHistory.PatientDetails[0].phoneNumber} */}
                 </div>
               </h1>
               <h1 className="flex font-bold text-2xl">
-                Address:
-                <div className="flex font-semibold text-xl pt-2 pl-5">
-                  {medicalHistory.address}
+                Address
+                <div className="flex font-semibold text-xl pt-1 pl-2">
+                  : {medicalHistory.address}
                   {/* {medicalHistory.PatientDetails && medicalHistory.PatientDetails[0].address} */}
                 </div>
               </h1>
               <h1 className="flex font-bold text-2xl">
-                Age:
-                <div className="flex font-semibold text-xl pt-2 pl-5">
-                  {calculateAge(medicalHistory.birthDate)}
+                Age
+                <div className="flex font-semibold text-xl pt-1 pl-12">
+                  : {calculateAge(medicalHistory.birthDate)}
                   {/* {calculateAge(medicalHistory.PatientDetails && medicalHistory.PatientDetails[0].birthDate)} */}
                 </div>
               </h1>

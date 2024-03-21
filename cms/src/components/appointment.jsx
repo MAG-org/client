@@ -200,7 +200,7 @@ export default function Appointment() {
         <form onSubmit={handleSubmit}>
           <div>
             <label>Diagnosis:</label>
-            <input
+            <textarea
               type="text"
               name="disease_name"
               value={inputValue.disease_name}
@@ -210,7 +210,7 @@ export default function Appointment() {
           </div>
           <div>
             <label>Doctor Note:</label>
-            <input
+            <textarea
               name="docter_note"
               value={inputValue.docter_note}
               onChange={handleDiagnosisChange}
