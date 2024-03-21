@@ -22,14 +22,13 @@ export default function SignInSide() {
     event.preventDefault();
     try {
       const data = await axios.post(
-        // API URL HERE
-        "API_URL_HERE", // Ganti dengan URL API yang benar
+        "http://localhost:3000/api/admin/login-admin",
         {
           email: loginInput.email,
           password: loginInput.password,
         }
       );
-      localStorage.setItem("access_token", data.access_token);
+      localStorage.setItem("accessToken", data.data.accessToken);
       navigate("/");
     } catch (error) {
       console.log(error);

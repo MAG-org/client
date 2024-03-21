@@ -29,6 +29,12 @@ const router = createBrowserRouter([
         path: "/",
         element: <Home/>,
       },
+    ],
+  },
+  {
+    element: <Layout />,
+    loader: () => !localStorage.getItem("access_token") && redirect("/login"),
+    children: [
       {
         path: "/doctors",
         element: <DoctorPage/>,
