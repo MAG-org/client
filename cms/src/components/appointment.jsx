@@ -30,8 +30,11 @@ export default function Appointment() {
     fetchAppointmentData();
   }, []);
 
+  console.log(appointmentData);
+
   const filteredAppointmentData = appointmentData.filter((result) =>
-    result.status.toLowerCase().includes(searchTerm.toLowerCase())
+    result.PatientDetails[0].name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    result.DoctorDetail[0].name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const getFormattedDate = (dateString) => {
