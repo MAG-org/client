@@ -8,6 +8,7 @@ export default function Appointment() {
   const [searchTerm, setSearchTerm] = useState("");
   const [appointmentData, setAppointmentData] = useState([]);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const [selectedPatientId, setSelectedPatientId] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [inputValue, setInputValue] = useState({
     disease_name: "",
@@ -20,7 +21,8 @@ export default function Appointment() {
         const response = await axios.get(
           "http://localhost:3000/api/appointment"
         );
-
+        
+        console.log(response.data);
         setAppointmentData(response.data);
       } catch (error) {
         console.error("Error fetching appointment data:", error);
@@ -47,8 +49,9 @@ export default function Appointment() {
     });
   };
 
-  const openModal = (appointmentId) => {
+  const openModal = (appointmentId, patientId) => {
     setSelectedAppointment(appointmentId);
+    setSelectedPatientId(patientId)
     setModalIsOpen(true);
   };
 
@@ -76,7 +79,10 @@ export default function Appointment() {
       const requestBody = {
         ...inputValue,
         appointmentId: selectedAppointment,
+        patientId: selectedPatientId
       };
+
+      console.log(requestBody, "<<<< req body");
 
       await axios.post(
         "http://localhost:3000/api/medical-record/add-medical-records",
@@ -87,18 +93,13 @@ export default function Appointment() {
           },
         }
       );
+      
+      console.log(selectedAppointment);
 
-      const updatedAppointmentData = appointmentData.map((appointment) => {
-        if (appointment._id === selectedAppointment) {
-          return {
-            ...appointment,
-            status: "Finished",
-          };
-        }
-        return appointment;
-      });
-
-      setAppointmentData(updatedAppointmentData);
+      await axios.patch('http://localhost:3000/api/appointment/edit-appointment-status/' + selectedAppointment, {
+        status: "Finished",
+        id: selectedAppointment
+      })
 
       closeModal();
       Swal.fire({
@@ -168,7 +169,7 @@ export default function Appointment() {
               </td>
               <td>
                 {appointment.status === "Paid" && (
-                  <button onClick={() => openModal(appointment._id)}>
+                  <button onClick={() => openModal(appointment._id, appointment.PatientDetails[0]._id)}>
                     <img
                       className="w-5 h-5"
                       src="https://icons.veryicon.com/png/o/miscellaneous/linear-small-icon/edit-246.png"
